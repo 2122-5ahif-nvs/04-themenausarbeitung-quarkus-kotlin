@@ -1,0 +1,134 @@
+= Quarkus mit Kotlin
+Benjamin Ecker
+1.0, 2020-08-22
+ifndef::sourcedir[:sourcedir: ../src/main/java]
+ifndef::imagesdir[:imagesdir: images]
+ifndef::backend[:backend: html5]
+:icons: font
+:imagesdir: images
+:customcss: css/presentation.css
+
+== Was ist Kotlin?
+* Entwickelt von Jetbrains
+* Open-Source
+* Platz .12 auf dem PYPL Index
+* Zur Entwicklung von image:apple-seeklogo.com.svg[Static, 25] / image:android-seeklogo.com.svg[Static, 25] Apps
+* Kompatibel mit Java
+
+== Kotlin vs Java
+
+image::kotlin-compilation-process.png[]
+
+== Wichtigste Features
+
+* Läuft fast überall (LLVM Compiler)
+* hervorragende serverseitigen Apps
+* Daten-Klassen und Typ-Aliasse
+* Erweitern bestehender Klassen mit neuen Features
+* Weiternutzung bestehender Java-Frameworks und Bibliotheken
+
+== Null Safety
+
+[cols="1,1"]
+|===
+| *Kotlin*
+| *Java*
+
+| Es ist nicht möglich, Variablen oder Objekten standardmäßig Nullwerte zuzuweisen.
+
+| NullPointerExceptions - ermöglicht es Entwicklern, einer beliebigen Variablen einen Nullwert zuzuweisen.
+|===
+
+[source,kotlin]
+----
+val number: Int? = null
+----
+
+== Data Classes
+
+=== Java
+[source,java]
+----
+public class Person {
+    private String name;
+    private String surname;
+    private String id;
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public String getSurname() {
+        return surname;
+    }
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
+    @Override public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        if (name != null ? !name.equals(person.name) : person.name != null) return false;
+        if (surname != null ? !surname.equals(person.surname) : person.surname != null)
+            return false;
+        return id != null ? id.equals(person.id) : person.id == null;
+    }
+    @Override public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (surname != null ? surname.hashCode() : 0);
+        result = 31 * result + (id != null ? id.hashCode() : 0);
+        return result;
+    }
+    @Override public String toString() {
+        return "Person{" +
+                "name='" + name + ''' +
+                ", surname='" + surname + ''' +
+                ", id='" + id + ''' +
+                '}';
+    }
+}
+----
+
+=== Kotlin
+
+[source,kotlin]
+----
+data class User(val name: String, val surname: String, val id: String)
+----
+
+== Smart Casts
+
+=== Java
+
+[source,java]
+----
+public void casting(){
+    if (state instanceof Connecting){
+        Log.d("MainActivity",
+              "Verbinde seit " + ((Connecting state).getDuration()) + " Sekunden.")
+    }
+}
+----
+
+=== Kotlin
+
+[source,kotlin]
+----
+fun casting() {
+    if (state is Connecting) {
+        Log.d("MainActivity",
+             "Verbinde seit ${state.getDuration()} Sekunden.")
+    }
+}
+----
+
+[%notitle]
+== Kotlin ist auch eine Insel
+image::kotlin_island.jpg[background, size cover]
